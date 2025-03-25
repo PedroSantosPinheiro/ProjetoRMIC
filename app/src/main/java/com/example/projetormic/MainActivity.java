@@ -1,9 +1,12 @@
 package com.example.projetormic;
 
 import android.annotation.SuppressLint;
+import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.GridLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -21,31 +24,69 @@ public class MainActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
 
-        GridLayout gridLayout = findViewById(R.id.gridLayout);
-        gridLayout.removeAllViews(); // Clear any previous views
-        gridLayout.setRotation(90);
-
         double[][] array = ArrayExample.getArray();
-        for (int i = 0; i < 24; i++) {
-            for (int j = 0; j < 32; j++) {
-                TextView textView = new TextView(this);
-                textView.setText(String.format("%05.2f", array[i][j]));
-                textView.setPadding(0, 5, 0, 5);
-                textView.setTextSize(9);
+        Bitmap heatmapBitmap = generateHeatmap(array, 320, 240);
 
-                GridLayout.LayoutParams params = new GridLayout.LayoutParams();
-                params.rowSpec = GridLayout.spec(i);
-                params.columnSpec = GridLayout.spec(j);
-                textView.setLayoutParams(params);
+        ImageView imageView = findViewById(R.id.imageView);
+        imageView.setImageBitmap(heatmapBitmap);
 
-                gridLayout.addView(textView);
-            }
-        }
+        generateColorbar();
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+    }
+
+    private Bitmap generateHeatmap(double[][] data, int width, int height) {
+        int rows = data.length;
+        int cols = data[0].length;
+        Bitmap bitmap = Bitmap.createBitmap(cols, rows, Bitmap.Config.ARGB_8888);
+
+        for (int y = 0; y < rows; y++) {
+            for (int x = 0; x < cols; x++) {
+                float value = (float) data[y][x];
+                int color = getColorForTemperature(value, 20, 40);
+                bitmap.setPixel(x, y, color);
+            }
+        }
+
+        return Bitmap.createScaledBitmap(bitmap, width, height, true);
+    }
+
+    private int getColorForTemperature(float value, float minTemp, float maxTemp) {
+        float normalized = (value - minTemp) / (maxTemp - minTemp);
+        normalized = Math.min(1f, Math.max(0f, normalized)); // Clamp between 0 and 1
+
+        int red = (int) (Math.min(1.0f, Math.max(0.0f, normalized * 2 - 0.5f)) * 255);
+        int blue = (int) (Math.min(1.0f, Math.max(0.0f, 1.5f - normalized * 2)) * 255);
+        int green = (int) (Math.min(1.0f, Math.max(0.0f, 1.5f - Math.abs(normalized - 0.5f) * 2)) * 255);
+
+        return Color.rgb(red, green, blue);
+    }
+
+    private void generateColorbar() {
+        int width = 320;
+        int height = 50;
+        Bitmap colorbarBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+
+        for (int x = 0; x < width; x++) {
+            float temp = 20 + (40 - 20) * (x / (float) (width - 1));
+            float normalized = (temp - 20) / (40 - 20);
+            normalized = Math.min(1f, Math.max(0f, normalized));
+
+            int red = (int) (Math.min(1.0f, Math.max(0.0f, normalized * 2 - 0.5f)) * 255);
+            int blue = (int) (Math.min(1.0f, Math.max(0.0f, 1.5f - normalized * 2)) * 255);
+            int green = (int) (Math.min(1.0f, Math.max(0.0f, 1.5f - Math.abs(normalized - 0.5f) * 2)) * 255);
+
+            int color = Color.rgb(red, green, blue);
+            for (int y = 0; y < height; y++) {
+                colorbarBitmap.setPixel(x, y, color);
+            }
+        }
+
+        ImageView colorbarImageView = findViewById(R.id.colorbarImageView);
+        colorbarImageView.setImageBitmap(colorbarBitmap);
     }
 }

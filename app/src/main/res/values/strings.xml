@@ -9,4 +9,8 @@
     <string name="faulty_cells_value">Reading…</string>
     <string name="label_timestamp">Timestamp:</string>
     <string name="timestamp">Reading…</string>
+    <string name="heatmap_description">Description</string>
+    <string name="colorbar_description">Description2</string>
+    <string name="label_colorbar1">20ºC</string>
+    <string name="label_colorbar2">40ºC</string>
 </resources>
