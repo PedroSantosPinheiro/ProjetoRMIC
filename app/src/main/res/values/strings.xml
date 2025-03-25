@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">ProjetoRMIC</string>
+    <string name="temp">Temperature:</string>
+    <string name="label_max_value">Max:</string>
+    <string name="max_value">Reading…</string>
+    <string name="label_min_value">Min:</string>
+    <string name="min_value">Reading…</string>
+    <string name="label_faulty_cells">Faulty Cells:</string>
+    <string name="faulty_cells_value">Reading…</string>
+    <string name="label_timestamp">Timestamp:</string>
+    <string name="timestamp">Reading…</string>
+</resources>

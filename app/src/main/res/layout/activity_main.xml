@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <!-- Max Value Section -->
+    <TextView
+        android:id="@+id/maxLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/label_max_value"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/temperatureLabel"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/maxValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="@string/max_value"
+        app:layout_constraintStart_toEndOf="@+id/maxLabel"
+        app:layout_constraintTop_toTopOf="@+id/maxLabel" />
+
+    <!-- Min Value Section -->
+    <TextView
+        android:id="@+id/minLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:text="@string/label_min_value"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/maxValue"
+        app:layout_constraintTop_toTopOf="@+id/maxLabel" />
+
+    <TextView
+        android:id="@+id/minValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="@string/min_value"
+        app:layout_constraintStart_toEndOf="@+id/minLabel"
+        app:layout_constraintTop_toTopOf="@+id/minLabel" />
+
+    <!-- Faulty Cells Section -->
+    <TextView
+        android:id="@+id/faultyLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/label_faulty_cells"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/temperatureLabel" />
+
+    <TextView
+        android:id="@+id/faultyValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/faulty_cells_value"
+        app:layout_constraintStart_toEndOf="@+id/faultyLabel"
+        app:layout_constraintTop_toBottomOf="@+id/maxLabel" />
+
+    <!-- Temperature Section -->
+    <TextView
+        android:id="@+id/temperatureLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/temp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Timestamp Section -->
+    <TextView
+        android:id="@+id/timestampLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:text="@string/label_timestamp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/faultyValue"
+        app:layout_constraintTop_toTopOf="@+id/faultyLabel" />
+
+    <TextView
+        android:id="@+id/timestampValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="@string/timestamp"
+        app:layout_constraintStart_toEndOf="@+id/timestampLabel"
+        app:layout_constraintTop_toTopOf="@+id/timestampLabel" />
+
+    <!-- Grid Layout -->
+    <GridLayout
+        android:id="@+id/gridLayout"
+        android:layout_width="720dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/timestampLabel" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
