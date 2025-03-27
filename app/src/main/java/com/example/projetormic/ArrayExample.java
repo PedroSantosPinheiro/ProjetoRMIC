@@ -1,20 +1,57 @@
 package com.example.projetormic;
 
 import android.annotation.SuppressLint;
+import android.util.Log;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class ArrayExample {
 
-    public static double[][] getArray() {
-        double[][] array = new double[24][32];
+    private static final String TAG = "FirebaseData";
+    private static double[][] array = new double[24][32];
 
-        // Fill the array
-        for (int i = 0; i < 24; i++) {
-            for (int j = 0; j < 32; j++) {
-                // Convert row and column to double with 2 decimal places
-                @SuppressLint("DefaultLocale") String value = String.format("%02d.%02d", i, j);
-                array[i][j] = Double.parseDouble(value);
+    // Interface to notify when data is fetched
+    public interface DataFetchedListener {
+        void onDataFetched();
+    }
+
+    public static void fetchDataFromFirebase(DataFetchedListener listener) {
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("solar_panel_data/thermal_frame");
+
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                try {
+                    for (int i = 0; i < 24; i++) {
+                        for (int j = 0; j < 32; j++) {
+                            Double value = dataSnapshot.child(String.valueOf(i)).child(String.valueOf(j)).getValue(Double.class);
+                            if (value != null) {
+                                array[i][j] = value;
+                                Log.d("FirebaseData", "Array[" + i + "][" + j + "] = " + array[i][j]);
+                            }
+                        }
+                    }
+                    Log.d(TAG, "Data updated successfully.");
+                    if (listener != null) {
+                        listener.onDataFetched(); // Notify that data has been fetched
+                    }
+                } catch (Exception e) {
+                    Log.e(TAG, "Error parsing data", e);
+                }
             }
-        }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.w(TAG, "Failed to read value.", databaseError.toException());
+            }
+        });
+    }
+
+    public static double[][] getArray(DataFetchedListener listener) {
+        fetchDataFromFirebase(listener); // Ensure data is fetched before returning the array
         return array;
     }
 }
