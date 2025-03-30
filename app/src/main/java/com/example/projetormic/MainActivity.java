@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -23,6 +24,11 @@ import com.google.firebase.database.ValueEventListener;
 
 public class MainActivity extends AppCompatActivity implements ArrayExample.DataFetchedListener {
 
+    private TextView faultyValueTextView;
+    private TextView maxTempTextView;
+    private TextView minTempTextView;
+    private TextView timestampTextView;
+
     @SuppressLint("DefaultLocale")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,30 +36,41 @@ public class MainActivity extends AppCompatActivity implements ArrayExample.Data
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
 
-        // Fetch data from Firebase and update the array
-        ArrayExample.fetchDataFromFirebase(this);
 
-        // Add a log for checking the array after data is fetched
-        Log.d("FirebaseData", "MainActivity Array[0][0] = " + ArrayExample.getArray(this)[0][0]);
+        faultyValueTextView = findViewById(R.id.faultyValue);
+        maxTempTextView = findViewById(R.id.maxValue);
+        minTempTextView = findViewById(R.id.minValue);
+        timestampTextView = findViewById(R.id.timestampValue);
 
-        Bitmap heatmapBitmap = generateHeatmap(ArrayExample.getArray(this), 320, 240);
+        Button fetchButton = findViewById(R.id.fetchButton);
+        fetchButton.setOnClickListener(v -> {
+            fetchDataFromFirebase();
+            ArrayExample.fetchDataFromFirebase(this);
+            Bitmap heatmapBitmap = generateHeatmap(ArrayExample.getArray(this), 320, 240);
 
-        ImageView imageView = findViewById(R.id.imageView);
-        imageView.setImageBitmap(heatmapBitmap);
+            ImageView imageView = findViewById(R.id.imageView);
+            imageView.setImageBitmap(heatmapBitmap);
 
-        generateColorbar();
+            generateColorbar();
+            updateHeatmap();
+        });
 
-        // Keep the existing listeners for other Firebase data
-        TextView faultyValueTextView = findViewById(R.id.faultyValue);
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
+    }
+
+    private void fetchDataFromFirebase() {
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("solar_panel_data/faulty_cell_count");
-
-        databaseReference.addValueEventListener(new ValueEventListener() {
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
                     int faultyCount = dataSnapshot.getValue(Integer.class);
                     faultyValueTextView.setText(String.valueOf(faultyCount));
-                    Log.d("FirebaseData", "Faulty Cell Count: " + faultyCount);  // Log the value
+                    Log.d("FirebaseData", "Faulty Cell Count: " + faultyCount);
                 }
             }
 
@@ -63,9 +80,8 @@ public class MainActivity extends AppCompatActivity implements ArrayExample.Data
             }
         });
 
-        TextView maxTempTextView = findViewById(R.id.maxValue);
         DatabaseReference maxTempRef = FirebaseDatabase.getInstance().getReference("solar_panel_data/max_temp");
-        maxTempRef.addValueEventListener(new ValueEventListener() {
+        maxTempRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
@@ -81,9 +97,8 @@ public class MainActivity extends AppCompatActivity implements ArrayExample.Data
             }
         });
 
-        TextView minTempTextView = findViewById(R.id.minValue);
         DatabaseReference minTempRef = FirebaseDatabase.getInstance().getReference("solar_panel_data/min_temp");
-        minTempRef.addValueEventListener(new ValueEventListener() {
+        minTempRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
@@ -99,9 +114,8 @@ public class MainActivity extends AppCompatActivity implements ArrayExample.Data
             }
         });
 
-        TextView timestampTextView = findViewById(R.id.timestampValue);
         DatabaseReference timestampRef = FirebaseDatabase.getInstance().getReference("solar_panel_data/timestamp");
-        timestampRef.addValueEventListener(new ValueEventListener() {
+        timestampRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
@@ -115,12 +129,6 @@ public class MainActivity extends AppCompatActivity implements ArrayExample.Data
             public void onCancelled(DatabaseError databaseError) {
                 Log.e("FirebaseError", "Failed to read timestamp", databaseError.toException());
             }
-        });
-
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
         });
     }
 

@@ -19,9 +19,9 @@ public class ArrayExample {
     }
 
     public static void fetchDataFromFirebase(DataFetchedListener listener) {
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("solar_panel_data/thermal_frame");
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("solar_panel_data_faulty/thermal_frame");
 
-        databaseReference.addValueEventListener(new ValueEventListener() {
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 try {
@@ -30,7 +30,7 @@ public class ArrayExample {
                             Double value = dataSnapshot.child(String.valueOf(i)).child(String.valueOf(j)).getValue(Double.class);
                             if (value != null) {
                                 array[i][j] = value;
-                                Log.d("FirebaseData", "Array[" + i + "][" + j + "] = " + array[i][j]);
+                                Log.d(TAG, "Array[" + i + "][" + j + "] = " + array[i][j]);
                             }
                         }
                     }
@@ -51,7 +51,6 @@ public class ArrayExample {
     }
 
     public static double[][] getArray(DataFetchedListener listener) {
-        fetchDataFromFirebase(listener); // Ensure data is fetched before returning the array
         return array;
     }
 }
