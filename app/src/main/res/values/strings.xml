@@ -1,17 +1,24 @@
 <resources>
     <string name="app_name">ProjetoRMIC</string>
     <string name="temp">Temperature:</string>
-    <string name="label_max_value">Max:</string>
+    <string name="label_max_value">Max. Temp:</string>
     <string name="max_value">Reading…</string>
-    <string name="label_min_value">Min:</string>
+    <string name="label_min_value">Min. Temp:</string>
     <string name="min_value">Reading…</string>
+    <string name="label_avg_value">Avg. Temp:</string>
+    <string name="avg_value">Reading…</string>
+    <string name="label_illuminance">Illuminance:</string>
+    <string name="illuminance_value">Reading…</string>
     <string name="label_faulty_cells">Faulty Cells:</string>
     <string name="faulty_cells_value">Reading…</string>
-    <string name="label_timestamp">Timestamp:</string>
+    <string name="label_timestamp">Last Reading:</string>
     <string name="timestamp">Reading…</string>
     <string name="heatmap_description">Description</string>
     <string name="colorbar_description">Description2</string>
-    <string name="label_colorbar1">20ºC</string>
-    <string name="label_colorbar2">60ºC</string>
+    <string name="label_colorbar20">20ºC</string>
+    <string name="label_colorbar30">30ºC</string>
+    <string name="label_colorbar40">40ºC</string>
+    <string name="label_colorbar50">50ºC</string>
+    <string name="label_colorbar60">60ºC</string>
     <string name="label_toolbar">Advanced View</string>
 </resources>
