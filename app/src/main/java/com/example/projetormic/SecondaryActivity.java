@@ -6,6 +6,9 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.activity.EdgeToEdge;
@@ -48,7 +51,7 @@ public class SecondaryActivity extends AppCompatActivity implements ArrayExample
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false); // Hide default title
 
-        TextView toolbarTitle = findViewById(R.id.toolbar_title);
+        //TextView toolbarTitle = findViewById(R.id.toolbar_title);
 
         toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
         if (getSupportActionBar() != null) {
@@ -81,6 +84,28 @@ public class SecondaryActivity extends AppCompatActivity implements ArrayExample
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_secondary, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.sync) {
+            fetchDataFromFirebase();
+            generateColorbar();
+            ArrayExample.fetchDataFromFirebase(this);
+            Bitmap heatmapBitmap = generateHeatmap(ArrayExample.getArray(this), 320, 240);
+            ImageView imageView = findViewById(R.id.imageView);
+            imageView.setImageBitmap(heatmapBitmap);
+            updateHeatmap();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void fetchDataFromFirebase() {
