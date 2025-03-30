@@ -1,6 +1,7 @@
 package com.example.projetormic;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -44,6 +45,7 @@ public class MainActivity extends AppCompatActivity implements ArrayExample.Data
 
         Button fetchButton = findViewById(R.id.fetchButton);
         fetchButton.setOnClickListener(v -> {
+            /*
             fetchDataFromFirebase();
             ArrayExample.fetchDataFromFirebase(this);
             Bitmap heatmapBitmap = generateHeatmap(ArrayExample.getArray(this), 320, 240);
@@ -53,6 +55,9 @@ public class MainActivity extends AppCompatActivity implements ArrayExample.Data
 
             generateColorbar();
             updateHeatmap();
+             */
+            Intent intent = new Intent(MainActivity.this, SecondaryActivity.class);
+            startActivity(intent);
         });
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {

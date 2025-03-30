@@ -13,4 +13,5 @@
     <string name="colorbar_description">Description2</string>
     <string name="label_colorbar1">20ºC</string>
     <string name="label_colorbar2">60ºC</string>
+    <string name="label_toolbar">Advanced View</string>
 </resources>
