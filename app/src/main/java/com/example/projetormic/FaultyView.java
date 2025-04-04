@@ -5,12 +5,13 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -24,7 +25,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class SecondaryActivity extends AppCompatActivity implements ArrayExample.DataFetchedListener {
+public class FaultyView extends AppCompatActivity implements ArrayFetch.DataFetchedListener{
 
     private TextView faultyValueTextView;
     private TextView maxTempTextView;
@@ -33,12 +34,11 @@ public class SecondaryActivity extends AppCompatActivity implements ArrayExample
     private TextView timestampTextView;
     private TextView illuminanceTextView;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_secondary);
+        setContentView(R.layout.activity_faulty_view);
 
         faultyValueTextView = findViewById(R.id.faultyValue);
         maxTempTextView = findViewById(R.id.maxValue);
@@ -50,8 +50,6 @@ public class SecondaryActivity extends AppCompatActivity implements ArrayExample
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false); // Hide default title
-
-        //TextView toolbarTitle = findViewById(R.id.toolbar_title);
 
         toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
         if (getSupportActionBar() != null) {
@@ -71,20 +69,17 @@ public class SecondaryActivity extends AppCompatActivity implements ArrayExample
             }
         });
 
-        fetchDataFromFirebase();
         generateColorbar();
-        ArrayExample.fetchDataFromFirebase(this);
-        Bitmap heatmapBitmap = generateHeatmap(ArrayExample.getArray(this), 320, 240);
-        ImageView imageView = findViewById(R.id.imageView);
-        imageView.setImageBitmap(heatmapBitmap);
-        updateHeatmap();
+        fetchDataFromFirebase();
+        ArrayFetch.fetchDataFromFirebase("solar_panel_data_faulty/thermal_frame", (data) -> {
+            onDataFetched(data);
+        });
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-
     }
 
     @Override
@@ -98,12 +93,9 @@ public class SecondaryActivity extends AppCompatActivity implements ArrayExample
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.sync) {
             fetchDataFromFirebase();
-            generateColorbar();
-            ArrayExample.fetchDataFromFirebase(this);
-            Bitmap heatmapBitmap = generateHeatmap(ArrayExample.getArray(this), 320, 240);
-            ImageView imageView = findViewById(R.id.imageView);
-            imageView.setImageBitmap(heatmapBitmap);
-            updateHeatmap();
+            ArrayFetch.fetchDataFromFirebase("solar_panel_data_faulty/thermal_frame", (data) -> {
+                onDataFetched(data);
+            });
         }
         return super.onOptionsItemSelected(item);
     }
@@ -239,14 +231,8 @@ public class SecondaryActivity extends AppCompatActivity implements ArrayExample
     }
 
     @Override
-    public void onDataFetched() {
-        // Data is fetched, now update the heatmap
-        updateHeatmap();
-    }
-
-    private void updateHeatmap() {
-        // Assuming you have a method to generate the heatmap from the array
-        Bitmap heatmapBitmap = generateHeatmap(ArrayExample.getArray(this), 320, 240);
+    public void onDataFetched(double[][] data) {
+        Bitmap heatmapBitmap = generateHeatmap(data, 320, 240);
         ImageView imageView = findViewById(R.id.imageView);
         imageView.setImageBitmap(heatmapBitmap);
     }

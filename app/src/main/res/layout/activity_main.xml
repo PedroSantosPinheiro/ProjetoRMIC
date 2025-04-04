@@ -9,11 +9,23 @@
 
     <!-- Button Section -->
     <Button
-        android:id="@+id/fetchButton"
+        android:id="@+id/fetchButtonFaulty"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
-        android:text="Fetch Data"
+        android:text="View Faulty Data"
+        android:backgroundTint="@color/blue"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fetchButtonLive" />
+
+    <!-- Button Section -->
+    <Button
+        android:id="@+id/fetchButtonLive"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:text="View Live Feed"
         android:backgroundTint="@color/blue"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

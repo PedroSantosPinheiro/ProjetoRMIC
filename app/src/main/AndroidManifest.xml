@@ -13,10 +13,12 @@
         android:theme="@style/Theme.ProjetoRMIC"
         tools:targetApi="31">
         <activity
-            android:name=".SecondaryActivity"
+            android:name=".FaultyView"
+            android:exported="false" />
+        <activity
+            android:name=".LiveView"
             android:exported="false"
             android:parentActivityName=".MainActivity" />
-
         <activity
             android:name=".MainActivity"
             android:exported="true">

@@ -1,33 +1,14 @@
 {
   "project_info": {
-    "project_number": "711168864468",
-    "firebase_url": "https://iot-alarm-app-34e69-default-rtdb.firebaseio.com",
-    "project_id": "iot-alarm-app-34e69",
-    "storage_bucket": "iot-alarm-app-34e69.firebasestorage.app"
+    "project_number": "461588985199",
+    "firebase_url": "https://rmic-project-group-22-default-rtdb.firebaseio.com",
+    "project_id": "rmic-project-group-22",
+    "storage_bucket": "rmic-project-group-22.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:711168864468:android:37d3d2387ee3d675cd4b41",
-        "android_client_info": {
-          "package_name": "com.example.assignment1gr10"
-        }
-      },
-      "oauth_client": [],
-      "api_key": [
-        {
-          "current_key": "AIzaSyB1KizGAOFHiHyWhJ_PXxOgVdfa_OTstso"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": []
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:711168864468:android:97265a1e4df3254bcd4b41",
+        "mobilesdk_app_id": "1:461588985199:android:ec2e4753b20acf0d04a49a",
         "android_client_info": {
           "package_name": "com.example.projetormic"
         }
@@ -35,7 +16,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyB1KizGAOFHiHyWhJ_PXxOgVdfa_OTstso"
+          "current_key": "AIzaSyA2iMurSGUvL2WtT00kj8uooc3My7pKz4Q"
         }
       ],
       "services": {

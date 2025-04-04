@@ -1,6 +1,5 @@
 package com.example.projetormic;
 
-import android.annotation.SuppressLint;
 import android.util.Log;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -8,18 +7,18 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class ArrayExample {
+public class ArrayFetch {
 
     private static final String TAG = "FirebaseData";
     private static double[][] array = new double[24][32];
 
     // Interface to notify when data is fetched
     public interface DataFetchedListener {
-        void onDataFetched();
+        void onDataFetched(double[][] array);
     }
 
-    public static void fetchDataFromFirebase(DataFetchedListener listener) {
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("solar_panel_data_faulty/thermal_frame");
+    public static void fetchDataFromFirebase(String path, DataFetchedListener listener) {
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(path);
 
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -36,7 +35,7 @@ public class ArrayExample {
                     }
                     Log.d(TAG, "Data updated successfully.");
                     if (listener != null) {
-                        listener.onDataFetched(); // Notify that data has been fetched
+                        listener.onDataFetched(array); // Notify that data has been fetched
                     }
                 } catch (Exception e) {
                     Log.e(TAG, "Error parsing data", e);
@@ -48,9 +47,5 @@ public class ArrayExample {
                 Log.w(TAG, "Failed to read value.", databaseError.toException());
             }
         });
-    }
-
-    public static double[][] getArray(DataFetchedListener listener) {
-        return array;
     }
 }
