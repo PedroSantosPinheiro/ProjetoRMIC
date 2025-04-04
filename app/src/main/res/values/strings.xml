@@ -15,11 +15,12 @@
     <string name="timestamp">Reading…</string>
     <string name="heatmap_description">Description</string>
     <string name="colorbar_description">Description2</string>
-    <string name="label_colorbar20">20ºC</string>
-    <string name="label_colorbar30">30ºC</string>
-    <string name="label_colorbar40">40ºC</string>
-    <string name="label_colorbar50">50ºC</string>
-    <string name="label_colorbar60">60ºC</string>
+    <string name="label_colorbar1">20ºC</string>
+    <string name="label_colorbar2">25ºC</string>
+    <string name="label_colorbar3">30ºC</string>
+    <string name="label_colorbar4">35ºC</string>
+    <string name="label_colorbar5">40ºC</string>
+    <string name="label_colorbar6">45ºC</string>
     <string name="label_live_toolbar">Live View</string>
     <string name="label_faulty_toolbar">Faulty Data View</string>
 </resources>

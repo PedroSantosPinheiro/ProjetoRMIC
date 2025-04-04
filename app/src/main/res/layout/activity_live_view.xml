@@ -190,11 +190,11 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
-                android:layout_marginStart="12dp"
+                android:layout_marginStart="6dp"
                 android:layout_weight="1"
                 android:gravity="start"
                 android:paddingTop="8dp"
-                android:text="@string/label_colorbar20"
+                android:text="@string/label_colorbar1"
                 android:textSize="14sp" />
 
             <TextView
@@ -205,7 +205,7 @@
                 android:layout_weight="1"
                 android:gravity="start"
                 android:paddingTop="8dp"
-                android:text="@string/label_colorbar30"
+                android:text="@string/label_colorbar2"
                 android:textSize="14sp" />
 
             <TextView
@@ -216,7 +216,7 @@
                 android:layout_weight="1"
                 android:gravity="start"
                 android:paddingTop="8dp"
-                android:text="@string/label_colorbar40"
+                android:text="@string/label_colorbar3"
                 android:textSize="14sp" />
 
             <TextView
@@ -227,7 +227,7 @@
                 android:layout_weight="1"
                 android:gravity="start"
                 android:paddingTop="8dp"
-                android:text="@string/label_colorbar50"
+                android:text="@string/label_colorbar4"
                 android:textSize="14sp" />
 
             <TextView
@@ -238,7 +238,18 @@
                 android:layout_weight="1"
                 android:gravity="start"
                 android:paddingTop="8dp"
-                android:text="@string/label_colorbar60"
+                android:text="@string/label_colorbar5"
+                android:textSize="14sp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginStart="40dp"
+                android:layout_weight="1"
+                android:gravity="start"
+                android:paddingTop="8dp"
+                android:text="@string/label_colorbar6"
                 android:textSize="14sp" />
 
         </LinearLayout>

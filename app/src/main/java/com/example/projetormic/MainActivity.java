@@ -4,7 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Button;
+import android.widget.LinearLayout;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity{
             }
         });
 
-        Button fetchButtonLive = findViewById(R.id.fetchButtonLive);
+        LinearLayout fetchButtonLive = findViewById(R.id.fetchButtonLive);
         fetchButtonLive.setOnClickListener(v -> {
             // Get Firebase database reference
             DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("enable_thermal_camera_view");
@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity{
             });
         });
 
-        Button fetchButtonFaulty = findViewById(R.id.fetchButtonFaulty);
+        LinearLayout fetchButtonFaulty = findViewById(R.id.fetchButtonFaulty);
         fetchButtonFaulty.setOnClickListener(v -> {
 
             // Start SecondaryActivity

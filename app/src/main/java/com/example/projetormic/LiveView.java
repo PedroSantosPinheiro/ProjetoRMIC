@@ -266,14 +266,29 @@ public class LiveView extends AppCompatActivity implements ArrayFetch.DataFetche
         int height = 50;
         Bitmap colorbarBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
 
+        float[] positions = {0.0f, 0.25f, 0.5f, 0.75f, 1.0f};
+        int[][] colors = {
+                {0, 0, 255},    // True blue (#0000FF)
+                {0, 255, 255},  // Cyan (#00FFFF)
+                {0, 255, 0},    // True green (#00FF00)
+                {255, 255, 0},  // Yellow (#FFFF00)
+                {255, 0, 0},    // True red (#FF0000)
+        };
         for (int x = 0; x < width; x++) {
             float temp = 20 + (60 - 20) * (x / (float) (width - 1));
             float normalized = (temp - 20) / (60 - 20);
             normalized = Math.min(1f, Math.max(0f, normalized));
 
-            int red = (int) (Math.min(1.0f, Math.max(0.0f, normalized)) * 255);
-            int green = (int) (Math.min(1.0f, Math.max(0.0f, 1.5f - Math.abs(normalized - 0.5f) * 2)) * 255);
-            int blue = (int) (Math.min(1.0f, Math.max(0.0f, 1.5f - normalized * 2)) * 255);
+            int red = 0, green = 0, blue = 0;
+            for (int i = 0; i < positions.length - 1; i++) {
+                if (normalized >= positions[i] && normalized <= positions[i + 1]) {
+                    float segment = (normalized - positions[i]) / (positions[i + 1] - positions[i]);
+                    red = (int) (colors[i][0] + segment * (colors[i + 1][0] - colors[i][0]));
+                    green = (int) (colors[i][1] + segment * (colors[i + 1][1] - colors[i][1]));
+                    blue = (int) (colors[i][2] + segment * (colors[i + 1][2] - colors[i][2]));
+                    break;
+                }
+            }
 
             int color = Color.rgb(red, green, blue);
             for (int y = 0; y < height; y++) {
@@ -332,7 +347,7 @@ public class LiveView extends AppCompatActivity implements ArrayFetch.DataFetche
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
                 float value = (float) interpolatedData[y][x];
-                int color = getColorForTemperature(value, 20, 60);
+                int color = getColorForTemperature(value, 20, 45);
                 bitmap.setPixel(x, y, color);
             }
         }
@@ -344,11 +359,27 @@ public class LiveView extends AppCompatActivity implements ArrayFetch.DataFetche
         float normalized = (value - minTemp) / (maxTemp - minTemp);
         normalized = Math.min(1f, Math.max(0f, normalized)); // Clamp between 0 and 1
 
-        int red = (int) (Math.min(1.0f, Math.max(0.0f, normalized * 2 - 0.5f)) * 255);
-        int green = (int) (Math.min(1.0f, Math.max(0.0f, 1.5f - Math.abs(normalized - 0.5f) * 2)) * 255);
-        int blue = (int) (Math.min(1.0f, Math.max(0.0f, 1.5f - normalized * 2)) * 255);
+        float[] positions = {0.0f, 0.25f, 0.5f, 0.75f, 1.0f};
+        int[][] colors = {
+                {0, 0, 255},    // True blue (#0000FF)
+                {0, 255, 255},  // Cyan (#00FFFF)
+                {0, 255, 0},    // True green (#00FF00)
+                {255, 255, 0},  // Yellow (#FFFF00)
+                {255, 0, 0},    // True red (#FF0000)
+        };
 
-        return Color.rgb(red, green, blue);
+        for (int i = 0; i < positions.length - 1; i++) {
+            if (normalized >= positions[i] && normalized <= positions[i + 1]) {
+                float segment = (normalized - positions[i]) / (positions[i + 1] - positions[i]);
+                int red = (int) (colors[i][0] + segment * (colors[i + 1][0] - colors[i][0]));
+                int green = (int) (colors[i][1] + segment * (colors[i + 1][1] - colors[i][1]));
+                int blue = (int) (colors[i][2] + segment * (colors[i + 1][2] - colors[i][2]));
+                return Color.rgb(red, green, blue);
+            }
+        }
+
+        // Fallback (shouldn't happen due to clamping)
+        return Color.rgb(colors[colors.length - 1][0], colors[colors.length - 1][1], colors[colors.length - 1][2]);
     }
 
     @Override
